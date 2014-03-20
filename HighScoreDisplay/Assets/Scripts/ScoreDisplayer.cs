@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class ScoreDisplayer : MonoBehaviour
 {
     private List<string> playerNames = new List<string>(), playerScores = new List<string>();
-    private GUIText displayText;
+    private GUIText displayText, rankDisplay, nameDisplay, scoreDisplay;
     private int topRank, bottomRank, myCurrentRank;
     public int numScoresDisplayed;
     public Font font;
@@ -18,6 +18,7 @@ public class ScoreDisplayer : MonoBehaviour
     //        -rankDisplay, nameDisplay, scoreDisplay (only have to change in the for loopz)
     // -specific ordering (need to utilize orderID parameter in displayScores
     // -adjust on resolution change
+    // -get plane "grid-ish" picture to put behind the scores (a bit transparent or something)
     //=============================//
 
     public int GetRank(string myname, string myscore)
@@ -35,16 +36,20 @@ public class ScoreDisplayer : MonoBehaviour
     void OnEnable()
     {
         hsScript = GetComponent<Highscore>();
-        displayText = GameObject.Find("DisplayText").guiText;
-        displayText.text = "Loading High Scores...";
+
+        rankDisplay = GameObject.Find("Display_Ranks").guiText;
+        nameDisplay = GameObject.Find("Display_Names").guiText;
+        scoreDisplay = GameObject.Find("Display_Scores").guiText;
+
+        rankDisplay.text = "Loading High Scores...";
     }
 
     public void DisplayScores(List<string> players, List<string> scores, int myRank, int whichOrder /* for future */)
     {
-        displayText.text = "";
-        displayText.font = font;
+        rankDisplay.text = ""; rankDisplay.font = font;
+        nameDisplay.text = ""; nameDisplay.font = font;
+        scoreDisplay.text = ""; scoreDisplay.font = font;
 
-        print("playercount: " + players.Count);
         if (players.Count < 1 || scores.Count < 1)
         {
             print("no players in database. nothing to display");
@@ -82,8 +87,18 @@ public class ScoreDisplayer : MonoBehaviour
             bottomRank = topRank + numScoresDisplayed - 1;
         }
 
+        rankDisplay.text = "RANK" + "\n";
+        nameDisplay.text = "NAME" + "\n";
+        scoreDisplay.text = "SCORE" + "\n";
+
         for (int i = topRank; i < topRank + numScoresDisplayed; i++)
-            displayText.text += i.ToString() + "         " + players[i - 1] + "      " + scores[i - 1] + "\n";
+        {
+            //displayText.text += i.ToString() + "         " + players[i - 1] + "      " + scores[i - 1] + "\n";
+
+            rankDisplay.text += "   " + i.ToString() + "\n";
+            nameDisplay.text += players[i - 1] + "\n";
+            scoreDisplay.text += scores[i - 1] + "\n";
+        }
 
     }
 
@@ -93,20 +108,39 @@ public class ScoreDisplayer : MonoBehaviour
         {
             bottomRank--;
             topRank--;
-            displayText.text = "";
 
+            //displayText.text = "";
+
+            rankDisplay.text = "RANK" + "\n";
+            nameDisplay.text = "PLAYER NAME" + "\n";
+            scoreDisplay.text = "SCORE" + "\n";
             for (int i = topRank; i < topRank + numScoresDisplayed; i++)
-                displayText.text += i.ToString() + "         " + playerNames[i - 1] + "      " + playerScores[i - 1] + "\n";
+            {
+                //displayText.text += i.ToString() + "         " + playerNames[i - 1] + "      " + playerScores[i - 1] + "\n";
+
+                rankDisplay.text += "  " + i.ToString() + "\n";
+                nameDisplay.text += playerNames[i - 1] + "\n";
+                scoreDisplay.text += playerScores[i - 1] + "\n";
+            }
         }
         else if (!down_or_up && bottomRank < playerScores.Count)
         {
             bottomRank++;
             topRank++;
-            displayText.text = "";
 
+            //displayText.text = "";
+
+            rankDisplay.text = "RANK" + "\n";
+            nameDisplay.text = "PLAYER NAME" + "\n";
+            scoreDisplay.text = "SCORE" + "\n";
             for (int i = topRank; i < topRank + numScoresDisplayed; i++)
-                displayText.text += i.ToString() + "         " + playerNames[i - 1] + "      " + playerScores[i - 1] + "\n";
+            {
+                //displayText.text += i.ToString() + "         " + playerNames[i - 1] + "      " + playerScores[i - 1] + "\n";
 
+                rankDisplay.text += "  " + i.ToString() + "\n";
+                nameDisplay.text += playerNames[i - 1] + "\n";
+                scoreDisplay.text += playerScores[i - 1] + "\n";
+            }
         }
     }
 
