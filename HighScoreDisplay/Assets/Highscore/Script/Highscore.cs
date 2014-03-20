@@ -14,7 +14,7 @@ public class Highscore : MonoBehaviour
         GetHighscoreUrl = "http://grastondoc.com/PHP/getHighscore.php",
         myName = "Name", myScore = "Score";
 
-    private string WindowTitel = "", DS = "";
+    private string DS = "";
     private List<string> names = new List<string>(), scores = new List<string>();
     private ScoreDisplayer scoreDisp;
 
@@ -24,10 +24,14 @@ public class Highscore : MonoBehaviour
     //======= TO DO =============
     // -clean up this script in general
     // -start thinking about how this script will be implemented (package form)
+    // -actually implement a name length limit
+    //=========================
 
     void Start()
     {
         scoreDisp = GetComponent<ScoreDisplayer>();
+        myName = "anonymous";
+        myScore = "123456";
         StartCoroutine("GetScore");
     }
 
@@ -45,7 +49,6 @@ public class Highscore : MonoBehaviour
     {
         List<string> retStrings = new List<string>();
         int i = 0;
-        WindowTitel = "Loading";
         DS = "";
 
         WWWForm form = new WWWForm();
@@ -56,11 +59,9 @@ public class Highscore : MonoBehaviour
         if (www.text == "")
         {
             print("There was an error getting the high score: " + www.error);
-            WindowTitel = "There was an error getting the high score";
         }
         else
         {
-            WindowTitel = "Done";
             DS = www.text;
             retStrings = DS.Split(';').ToList();
             while (i < retStrings.Count() - 1)
@@ -88,7 +89,6 @@ public class Highscore : MonoBehaviour
         form.AddField("hash", hash);
 
         WWW www = new WWW(PostScoreUrl, form);
-        WindowTitel = "Wait";
         yield return www;
 
         if (www.text == "done")
@@ -98,7 +98,6 @@ public class Highscore : MonoBehaviour
         else
         {
             print("There was an error posting the high score: " + www.error);
-            WindowTitel = "There was an error posting the high score";
         }
     }
 

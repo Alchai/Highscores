@@ -12,50 +12,39 @@ public class ScoreDisplayer : MonoBehaviour
     public int numScoresDisplayed;
     public Font font;
     private Highscore hsScript;
+
     //============ TO DO ============//
-    // -make 3 guitexts instead of 1 (even spacing)
-    // -fix irksome 1 index error when displaying too low of a score
+    // -make 3 guitexts instead of 1 (even spacing): 
+    //        -rankDisplay, nameDisplay, scoreDisplay (only have to change in the for loopz)
     // -specific ordering (need to utilize orderID parameter in displayScores
     // -adjust on resolution change
-    // -getrank locally instead of server side
     //=============================//
 
-
-    //
     public int GetRank(string myname, string myscore)
     {
-
         int rank = -1;
-        print("checking for " + myname + " " + myscore);
 
         for (int i = 0; i < playerNames.Count; i++)
-        {
-            print("comparing " + myname + " to " + playerNames[i]);
             if (playerNames[i] == hsScript.myName)
-            {
-                print("name match. checking scores");
                 if (playerScores[i] == hsScript.myScore.ToString())
-                {
-                    print("checking score: " + playerScores[i] + " with " + hsScript.myScore.ToString());
                     rank = i + 1;
-                }
-            }
-        }
 
         return rank;
     }
 
     void OnEnable()
     {
-         hsScript = GetComponent<Highscore>();
+        hsScript = GetComponent<Highscore>();
         displayText = GameObject.Find("DisplayText").guiText;
-        displayText.text = "";
+        displayText.text = "Loading High Scores...";
     }
 
     public void DisplayScores(List<string> players, List<string> scores, int myRank, int whichOrder /* for future */)
     {
+        displayText.text = "";
         displayText.font = font;
 
+        print("playercount: " + players.Count);
         if (players.Count < 1 || scores.Count < 1)
         {
             print("no players in database. nothing to display");
@@ -63,7 +52,7 @@ public class ScoreDisplayer : MonoBehaviour
         }
         if (numScoresDisplayed > players.Count)
         {
-            numScoresDisplayed = players.Count;
+            numScoresDisplayed = players.Count - 1;
             print("not enough players to display that many scores. displaying " + numScoresDisplayed + " instead.");
         }
         if (numScoresDisplayed < 1)
@@ -88,13 +77,14 @@ public class ScoreDisplayer : MonoBehaviour
 
         if (playerNames.Count - myRank < numScoresDisplayed)
         {
-            topRank = myRank;
+            topRank = myRank + 1;
             topRank -= numScoresDisplayed - (playerNames.Count - myRank);
             bottomRank = topRank + numScoresDisplayed - 1;
         }
 
         for (int i = topRank; i < topRank + numScoresDisplayed; i++)
             displayText.text += i.ToString() + "         " + players[i - 1] + "      " + scores[i - 1] + "\n";
+
     }
 
     public void ScrollScores(bool down_or_up)
@@ -118,11 +108,6 @@ public class ScoreDisplayer : MonoBehaviour
                 displayText.text += i.ToString() + "         " + playerNames[i - 1] + "      " + playerScores[i - 1] + "\n";
 
         }
-    }
-
-    public void JumpToRank(int whichRank)
-    {
-
     }
 
     void Update()
