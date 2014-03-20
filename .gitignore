@@ -1,10 +1,11 @@
 # =============== #
 # Unity generated #
 # =============== #
-Temp/
-Obj/
-UnityGenerated/
-Library/
+HighScoreDisplay/Temp/
+HighScoreDisplay/Obj/
+HighScoreDisplay/UnityGenerated/
+HighScoreDisplay/Library/
+HighScoreDisplay/ProjectSettings/
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
