@@ -1,0 +1,38 @@
+Here are some brainstormz about the highscores package. Let me know your thoughts whenever you get a chance to read through all this. 
+
+1) I think we should design it so that all the option changing will be handled in the editor window. I 
+think it'd be best to leave all variables hidden in the inspector, so that there is only one location 
+where the user has to worry about changing options. 
+
+2)I was brainstorming a bit about how to make it as easy as possible for the unity noob who's using our 
+package. I've been toying with the idea of "modes/genres", where the user selects a mode and can easily 
+set up a highscores system for that type of game. I realized that different games require different 
+kinds of high scores (although, the most popular will def be the way we currently set it up). 
+
+Ideas:
+-standard score mode
+	-highest score is best player 
+	-player picks a name everytime new score is submitted
+-racing game mode
+	-lowest "time" is best player
+	-different scores lists for each track
+	-player picks a name everytime new score is submitted
+-collectable mode(?)
+ 	-player logs in with user\pass
+        -at the end of each "level", points are added to your running total
+	-basically, whoever grinds the hardest every day will be the top ranked player
+
+
+3)The artist from martian media would buy like $50 platformer packs, and then just change around variables in the inspector and call it a day. So if we have a "modes\genres" (not set on that idea or anything, just brainstormin), we could also have a "Visuals" or "Graphics" or "Theme" tab (you get the idea) for nitty gritty tweaking. For example, "Auto Spacing" will be true by default (my algorithm to correctly space everything in all resolutions), but they can have the option to turn it off and manually change spacing, etc. Also in here would be things like color changes. 
+
+There could be another tab for "Advanced Options" or "Specifics", etc. Here would be options like choosing the number of players to display at a given time, setting the URL for your own FTP\SQL (if that is their fancy), and\or choosing the limit on player name length, etc. 
+
+4)Last, here's a list of things that I think we should add to our respective To-Do's for the time being:
+
+Steven:
+-Organize the hs code so that user can "show scores" without sending one. generally fix the logic so that it's closer to how the final product will be. 
+-Start coding the "auto spacer" logic that will ensure that all the scores are displayed properly "out of the box". Make sure to test on various mobile device sizes, and monitor resolutions, etc. 
+
+Josh:
+-Start investigating the unity editor gui class to figure out how we add a "HighScores" option to the "Windows" tab. 
+
