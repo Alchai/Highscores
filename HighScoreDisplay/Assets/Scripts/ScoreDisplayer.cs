@@ -7,15 +7,13 @@ using System.Collections.Generic;
 public class ScoreDisplayer : MonoBehaviour
 {
     private List<string> playerNames = new List<string>(), playerScores = new List<string>();
-    private GUIText displayText, rankDisplay, nameDisplay, scoreDisplay;
+    private GUIText displayText, rankDisplay, nameDisplay, scoreDisplay, scrollup, scrolldown;
     private int topRank, bottomRank, myCurrentRank;
     public int numScoresDisplayed;
     public Font font;
     private Highscore hsScript;
 
     //============ TO DO ============//
-    // -make 3 guitexts instead of 1 (even spacing): 
-    //        -rankDisplay, nameDisplay, scoreDisplay (only have to change in the for loopz)
     // -specific ordering (need to utilize orderID parameter in displayScores
     // -adjust on resolution change
     // -get plane "grid-ish" picture to put behind the scores (a bit transparent or something)
@@ -36,12 +34,13 @@ public class ScoreDisplayer : MonoBehaviour
     void OnEnable()
     {
         hsScript = GetComponent<Highscore>();
-
+        scrollup = GameObject.Find("ScrollUp").guiText;
+        scrolldown = GameObject.Find("ScrollDown").guiText;
         rankDisplay = GameObject.Find("Display_Ranks").guiText;
         nameDisplay = GameObject.Find("Display_Names").guiText;
         scoreDisplay = GameObject.Find("Display_Scores").guiText;
 
-        rankDisplay.text = "Loading High Scores...";
+       //rankDisplay.text = "Loading High Scores...";
     }
 
     public void DisplayScores(List<string> players, List<string> scores, int myRank, int whichOrder /* for future */)
@@ -49,7 +48,8 @@ public class ScoreDisplayer : MonoBehaviour
         rankDisplay.text = ""; rankDisplay.font = font;
         nameDisplay.text = ""; nameDisplay.font = font;
         scoreDisplay.text = ""; scoreDisplay.font = font;
-
+        scrollup.enabled = true;
+        scrolldown.enabled = true;
         if (players.Count < 1 || scores.Count < 1)
         {
             print("no players in database. nothing to display");

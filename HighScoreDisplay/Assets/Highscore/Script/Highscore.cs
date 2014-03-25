@@ -12,7 +12,7 @@ public class Highscore : MonoBehaviour
     public string secretKey = "12345",
         PostScoreUrl = "http://grastondoc.com/PHP/postScore.php?",
         GetHighscoreUrl = "http://grastondoc.com/PHP/getHighscore.php",
-        myName = "Name", myScore = "Score";
+        myName = "Player", myScore = "0";
 
     private string DS = "";
     private List<string> names = new List<string>(), scores = new List<string>();
@@ -30,9 +30,7 @@ public class Highscore : MonoBehaviour
     void Start()
     {
         scoreDisp = GetComponent<ScoreDisplayer>();
-        myName = "anonymous";
-        myScore = "123456";
-        StartCoroutine("GetScore");
+        //StartCoroutine("GetScore");
     }
 
     public void GetScores()
@@ -42,7 +40,7 @@ public class Highscore : MonoBehaviour
 
     public void PostScores()
     {
-        StartCoroutine("PostScore");
+        StartCoroutine(PostScore(myName, Convert.ToInt32(myScore)));
     }
 
     private IEnumerator GetScore()
@@ -76,10 +74,10 @@ public class Highscore : MonoBehaviour
         }
     }
 
-    private IEnumerator PostScore(string name, int score)
+    private IEnumerator PostScore(string myname, int myscore)
     {
-        string _name = name;
-        int _score = score;
+        string _name = myname;
+        int _score = myscore;
 
         string hash = Md5Sum(_name + _score + secretKey).ToLower();
 
