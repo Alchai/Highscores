@@ -70,15 +70,14 @@ public class ScoreDisplayer : MonoBehaviour
         playerScores = scores;
 
         myCurrentRank = GetRank(hsScript.myName, hsScript.myScore);
+        if (myCurrentRank == -1)
+        {
+            print("rank not found");
+            myCurrentRank = 1;
+        }
         topRank = myCurrentRank;
         myRank = myCurrentRank;
         bottomRank = myRank + numScoresDisplayed - 1;
-
-        if (myRank == -1)
-        {
-            print("rank not found");
-            return;
-        }
 
         if (playerNames.Count - myRank < numScoresDisplayed)
         {

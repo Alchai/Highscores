@@ -11,7 +11,7 @@ public class Highscore : MonoBehaviour
     [NonSerialized] //this tag makes the following variables not show up in the inspector
     public string secretKey = "12345",
         PostScoreUrl = "http://grastondoc.com/PHP/postScore.php?",
-        GetHighscoreUrl = "http://grastondoc.com/PHP/getHighscore.php",
+        GetHighscoreUrl = "http://grastondoc.com/PHP/getScores.php",
         myName = "Player", myScore = "0";
 
     private string DS = "";
@@ -19,7 +19,7 @@ public class Highscore : MonoBehaviour
     private ScoreDisplayer scoreDisp;
 
     public int maxNameLength = 10;
-    public int getLimitScore = 15;
+    public int listLength = 15;
 
     //======= TO DO =============
     // -clean up this script in general
@@ -50,13 +50,13 @@ public class Highscore : MonoBehaviour
         DS = "";
 
         WWWForm form = new WWWForm();
-        form.AddField("limit", getLimitScore);
+        form.AddField("limit", listLength);
         WWW www = new WWW(GetHighscoreUrl, form);
         yield return www;
 
         if (www.text == "")
         {
-            print("There was an error getting the high score: " + www.error);
+            print("Error: No high scores retrieved. \nDetails: " + www.error);
         }
         else
         {
@@ -95,7 +95,7 @@ public class Highscore : MonoBehaviour
         }
         else
         {
-            print("There was an error posting the high score: " + www.error);
+            print("Error: High score not posted. \n Details:" + www.error);
         }
     }
 
